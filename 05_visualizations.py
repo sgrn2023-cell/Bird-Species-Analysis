@@ -12,8 +12,6 @@ import os
 import warnings
 warnings.filterwarnings('ignore')
 
-# visualizations.
-#  get_mysql_connection()
 def get_mysql_connection():
     connection = mysql.connector.connect(
         host='localhost',           
@@ -99,11 +97,8 @@ def viz_4_location_comparison(df):
     print("\n[VIZ 4] Creating Location Type Comparison Chart...")
     try:
         location_comparison = df.groupby(['location_type','ecosystem']).agg(Observations=('scientific_name', 'count'),Unique_Species=('scientific_name', 'nunique')).reset_index()
-        #location_counts = df.groupby(['location_type','ecosystem']).size().reset_index(name='Observations')
-        #species_by_location = df.groupby(['location_type','ecosystem'])['scientific_name'].nunique().reset_index(name='Unique_Species')
-        #location_comparison = pd.merge(location_counts, species_by_location, on='location_type')
         fig = px.bar(location_comparison, x='location_type', y='Observations',color='ecosystem', hover_data=['Unique_Species'], title='HABITAT COMPARISON: FOREST vs GRASSLAND', barmode='group',  # Side-by-side bars
-            color_discrete_map={'Observations': 'steelblue', 'Unique_Species': 'coral'})#labels={'location_type': 'Habitat Type', 'value': 'Count'},
+            color_discrete_map={'Observations': 'steelblue', 'Unique_Species': 'coral'})
         os.makedirs("output/visualizations", exist_ok=True)
         fig.write_html('output/visualizations/04_location_comparison.html')
         fig.show()
