@@ -11,8 +11,6 @@ import sys
 import os
 import warnings
 warnings.filterwarnings('ignore')
-# eda_analysis.py
-# get_mysql_connection()
 
 def get_mysql_connection():
     connection = mysql.connector.connect(
@@ -202,7 +200,6 @@ def environmental_analysis(df):
             print(f"   Temperature Range: {min_temp:.2f}° to {max_temp:.2f}°")
             df['temp_range'] = pd.cut(df['temperature'], bins=5)
             results['temperature'] = {str(k): v  for k, v in df.groupby('temp_range', observed=False).size().items()}
-            #results['temperature'] = df.groupby('temp_range').size().to_dict()
             print("\n3. Temperature Impact:",results['temperature'])
         
         # HUMIDITY ANALYSIS
@@ -213,13 +210,11 @@ def environmental_analysis(df):
             print(f"Mean Humidity: {mean_humidity:.2f}%")
             df['humidity_range'] = pd.cut(df['humidity'], bins=5)
             results['humidity'] = {str(k): v for k, v in df.groupby('humidity_range', observed=False).size().items()}
-            #results['humidity'] = df.groupby('humidity_range').size().to_dict()
             print("\n3. Humidity Impact:",results['humidity'])
 
         #  SKY CONDITION ANALYSIS
         if 'sky' in df.columns:
             results['sky_conditions'] = (df.groupby('sky').size().sort_values(ascending=False).to_dict() )
-        #results['sky_conditions'] = df.groupby('sky').size().sort_values(ascending=False).to_dict()
             print("\n3. Sky Conditions:", results['sky_conditions'])
         
         # WIND ANALYSIS 
@@ -231,7 +226,6 @@ def environmental_analysis(df):
         # DISTURBANCE EFFECT
         if 'disturbance' in df.columns:
             results['disturbance'] = (df.groupby('disturbance').size().sort_values(ascending=False).to_dict())
-        #results['disturbance'] = df.groupby('disturbance').size().sort_values(ascending=False).to_dict()
             print("\n5. Disturbance Types:", results['disturbance'])
 
     except Exception as error:
@@ -348,7 +342,7 @@ def save_analysis_report(all_results):
     print("\n Saving Analysis Report")
     try:        
         if not os.path.exists('output'):            
-            os.makedirs('output') #os.makedirs('output', exist_ok=True)
+            os.makedirs('output')
         output_file = os.path.join('output', 'EDA_Analysis_Report.txt')
         with open(output_file, 'w', encoding='utf-8') as f:
             f.write("BIRD SPECIES ANALYSIS - EDA REPORT\n")
