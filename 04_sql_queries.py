@@ -11,7 +11,7 @@ import sys
 import os
 import warnings
 warnings.filterwarnings('ignore')
-# get_mysql_connection()
+
 def get_mysql_connection():
     connection = mysql.connector.connect(
         host='localhost',
@@ -66,7 +66,6 @@ def query_1_top_species():
     LIMIT 10
     """
     forest_df = execute_query(query, "QUERY 1: TOP 10 MOST OBSERVED SPECIES (FOREST)")
-    #save_query_results(results, "01_top_species_forest.csv")
     
     query_grassland = """
     SELECT Common_Name, COUNT(*) as Observation_Count
@@ -77,7 +76,6 @@ def query_1_top_species():
     LIMIT 10
     """
     grassland_df = execute_query(query_grassland, "QUERY 1: TOP 10 MOST OBSERVED SPECIES (GRASSLAND)")
-    #save_query_results(results_grassland, "01_top_species_grassland.csv")
 
     forest_df["Habitat"] = "Forest"
     grassland_df["Habitat"] = "Grassland"
@@ -97,16 +95,14 @@ def query_2_species_by_location():
     GROUP BY Location_Type
     """
     forest_df = execute_query(query_forest, "QUERY 2: SPECIES DIVERSITY BY LOCATION (FOREST)")
-    #save_query_results(results_forest, "02_species_diversity_forest.csv")
-    
+      
     query_grassland = """
     SELECT Location_Type, COUNT(DISTINCT Scientific_Name) as Unique_Species_Count, COUNT(*) as Total_Observations
     FROM bird_grassland_observations
     GROUP BY Location_Type
     """
     grassland_df = execute_query(query_grassland, "QUERY 2: SPECIES DIVERSITY BY LOCATION (GRASSLAND)")
-    #save_query_results(results_grassland, "02_species_diversity_grassland.csv")
-
+ 
     forest_df["Habitat"] = "Forest"
     grassland_df["Habitat"] = "Grassland"
     
@@ -128,7 +124,6 @@ def query_3_temporal_distribution():
     LIMIT 24
     """
     forest_df = execute_query(query_forest, "QUERY 3: OBSERVATIONS BY YEAR & MONTH (FOREST)")
-    #save_query_results(results_forest, "03_temporal_distribution_forest.csv")
     
     query_grassland = """
     SELECT  YEAR(Date) as Year, MONTH(Date) as Month, COUNT(*) as Observation_Count, COUNT(DISTINCT Scientific_Name) as Species_Count
@@ -139,8 +134,7 @@ def query_3_temporal_distribution():
     LIMIT 24
     """
     grassland_df = execute_query(query_grassland, "QUERY 3: OBSERVATIONS BY YEAR & MONTH (GRASSLAND)")
-    #save_query_results(results_grassland, "03_temporal_distribution_grassland.csv")
-
+  
     forest_df["Habitat"] = "Forest"
     grassland_df["Habitat"] = "Grassland"
     
@@ -161,8 +155,7 @@ def query_4_at_risk_species():
     ORDER BY Observation_Count DESC
     """
     forest_df = execute_query(query_forest, "QUERY 4: AT-RISK SPECIES ON PIF WATCHLIST (FOREST)")
-    #save_query_results(results_forest, "04_at_risk_species_forest.csv")
-    
+        
     query_grassland = """
     SELECT Common_Name, Scientific_Name, COUNT(*) as Observation_Count,COUNT(DISTINCT Admin_Unit_Code) as Locations_Found, PIF_Watchlist_Status
     FROM bird_grassland_observations
@@ -171,7 +164,6 @@ def query_4_at_risk_species():
     ORDER BY Observation_Count DESC
     """
     grassland_df = execute_query(query_grassland, "QUERY 4: AT-RISK SPECIES ON PIF WATCHLIST (GRASSLAND)")
-    #save_query_results(results_grassland, "04_at_risk_species_grassland.csv")
 
     forest_df["Habitat"] = "Forest"
     grassland_df["Habitat"] = "Grassland"
@@ -194,8 +186,7 @@ def query_5_observer_performance():
     LIMIT 15
     """
     forest_df = execute_query(query_forest, "QUERY 5: OBSERVER PERFORMANCE (FOREST)")
-    #save_query_results(results_forest, "05_observer_performance_forest.csv")
-    
+        
     query_grassland = """
     SELECT Observer,  COUNT(*) as Total_Observations, COUNT(DISTINCT Common_Name) as Unique_Species_Found, COUNT(DISTINCT DATE(Date)) as Days_Active
     FROM bird_grassland_observations
@@ -205,8 +196,7 @@ def query_5_observer_performance():
     LIMIT 15
     """
     grassland_df = execute_query(query_grassland, "QUERY 5: OBSERVER PERFORMANCE (GRASSLAND)")
-    #save_query_results(results_grassland, "05_observer_performance_grassland.csv")
-
+    
     forest_df["Habitat"] = "Forest"
     grassland_df["Habitat"] = "Grassland"
     
@@ -227,7 +217,6 @@ def query_6_environmental_conditions():
     LIMIT 20
     """
     forest_df = execute_query(query_forest, "QUERY 6: ENVIRONMENTAL CONDITIONS IMPACT (FOREST)")
-    #save_query_results(results_forest, "06_environmental_conditions_forest.csv")
     
     query_grassland = """
     SELECT  Sky, Wind, COUNT(*) as Observation_Count, ROUND(AVG(Temperature), 2) as Avg_Temperature, ROUND(AVG(Humidity), 2) as Avg_Humidity, COUNT(DISTINCT Common_Name) as Species_Observed
@@ -238,8 +227,7 @@ def query_6_environmental_conditions():
     LIMIT 20
     """
     grassland_df = execute_query(query_grassland, "QUERY 6: ENVIRONMENTAL CONDITIONS IMPACT (GRASSLAND)")
-    #save_query_results(results_grassland, "06_environmental_conditions_grassland.csv")
-
+ 
     forest_df["Habitat"] = "Forest"
     grassland_df["Habitat"] = "Grassland"
     
@@ -273,8 +261,7 @@ def query_7_sex_ratio():
     LIMIT 30
     """
     grassland_df = execute_query(query_grassland, "QUERY 7: SEX RATIO BY SPECIES (GRASSLAND)")
-    #save_query_results(results_grassland, "07_sex_ratio_grassland.csv")
-
+  
     forest_df["Habitat"] = "Forest"
     grassland_df["Habitat"] = "Grassland"
     
@@ -294,8 +281,7 @@ def query_8_distance_analysis():
     ORDER BY Observation_Count DESC
     """
     forest_df = execute_query(query_forest, "QUERY 8: DISTANCE ANALYSIS (FOREST)")
-    #save_query_results(results_forest, "08_distance_analysis_forest.csv")
-    
+      
     query_grassland = """
     SELECT Distance, COUNT(*) as Observation_Count, ROUND(AVG(Initial_Three_Min_Cnt), 2) as Avg_Species_Count, COUNT(DISTINCT Common_Name) as Unique_Species
     FROM bird_grassland_observations
@@ -304,8 +290,7 @@ def query_8_distance_analysis():
     ORDER BY Observation_Count DESC
     """
     grassland_df = execute_query(query_grassland, "QUERY 8: DISTANCE ANALYSIS (GRASSLAND)")
-    #save_query_results(results_grassland, "08_distance_analysis_grassland.csv")
-
+  
     forest_df["Habitat"] = "Forest"
     grassland_df["Habitat"] = "Grassland"
     
@@ -325,8 +310,7 @@ def query_9_biodiversity_hotspots():
     ORDER BY Unique_Species DESC
     """
     forest_df = execute_query(query_forest, "QUERY 9: BIODIVERSITY HOTSPOTS (FOREST)")  
-    #save_query_results(results_forest, "09_biodiversity_hotspots_forest.csv")
-    if forest_df is None:
+     if forest_df is None:
       print("Forest query failed")
       return
 
@@ -337,7 +321,6 @@ def query_9_biodiversity_hotspots():
     ORDER BY Unique_Species DESC
     """
     grassland_df = execute_query(query_grassland, "QUERY 9: BIODIVERSITY HOTSPOTS (GRASSLAND)")
-    #save_query_results(results_grassland, "09_biodiversity_hotspots_grassland.csv")
     if grassland_df is None:
       print("Grassland query failed")
       return
@@ -361,8 +344,7 @@ def query_10_identification_methods():
     ORDER BY Usage_Count DESC
     """
     forest_df = execute_query(query_forest, "QUERY 10: IDENTIFICATION METHOD ANALYSIS (FOREST)")
-    #save_query_results(results_forest, "10_identification_methods_forest.csv")
-    
+       
     query_grassland = """
     SELECT ID_Method, COUNT(*) as Usage_Count, COUNT(DISTINCT Common_Name) as Species_Identified, ROUND((COUNT(*) * 100 / (SELECT COUNT(*) FROM bird_grassland_observations)), 2) as Percentage
     FROM bird_grassland_observations
@@ -371,8 +353,7 @@ def query_10_identification_methods():
     ORDER BY Usage_Count DESC
     """
     grassland_df = execute_query(query_grassland, "QUERY 10: IDENTIFICATION METHOD ANALYSIS (GRASSLAND)")
-    #save_query_results(results_grassland, "10_identification_methods_grassland.csv")
-
+ 
     forest_df["Habitat"] = "Forest"
     grassland_df["Habitat"] = "Grassland"
 
