@@ -11,8 +11,7 @@ import sys
 import os
 import warnings
 warnings.filterwarnings('ignore')
-#streamlit
-# get_mysql_connection()
+
 def get_mysql_connection():
     connection = mysql.connector.connect(
         host='localhost',           
@@ -101,7 +100,7 @@ def page_home(df):
 def page_data_overview(df):
     st.title("📊 Data Overview")
     tab1, tab2, tab3 = st.tabs(["Raw Data", "Data Quality", "Statistics"])
-    # === TAB 1: RAW DATA ===
+    
     with tab1:
         st.subheader("Raw Dataset View")
         col1, col2 = st.columns(2)
@@ -149,22 +148,6 @@ def page_data_overview(df):
         numeric_df = df.select_dtypes(include=[np.number])
         
         st.dataframe(numeric_df.describe(), use_container_width=True)
-#def main():
- #   df = load_all_data()    
-    #if df is None or df.empty:
-     #   st.error("No data loaded from database")
-      #  st.stop()
-# SIDEBAR FILTER (THIS IS WHERE IT BELONGS)
-    #ecosystem_filter = st.sidebar.selectbox( "Select Ecosystem",
-     #   ['All'] + sorted(df['ecosystem'].dropna().unique()),key="sidebar_ecosystem")
-    #if ecosystem_filter != 'All':
-     #   df = df[df['ecosystem'] == ecosystem_filter]
-
-    #page_home(df)
-    #page_data_overview(df)
-
-#if __name__ == "__main__":
- #   main()
 
 #  SPECIES ANALYSIS
 def page_species_analysis(df):
@@ -197,7 +180,7 @@ def page_species_analysis(df):
     col3.metric( "Forest Observations",len(species_data[species_data['ecosystem'] == 'forest']))
     col4.metric("Grassland Observations",len(species_data[species_data['ecosystem'] == 'grassland']))
 
-    # SECTION 3: SEX RATIO 
+    #  SEX RATIO 
     st.subheader("Sex Ratio")
     
     sex_counts = species_data['sex'].value_counts().reset_index()
@@ -292,7 +275,7 @@ def page_geographic_analysis(df):
     st.subheader("Biodiversity Comparison by Habitat Type")
     location_counts = df['ecosystem'].value_counts()
     col1, col2 = st.columns(2)
-    # --- PIE CHART ---
+ 
     with col1:
         fig1, ax1 = plt.subplots()
         ax1.pie( location_counts.values, labels=location_counts.index, autopct='%1.1f%%', startangle=90)
