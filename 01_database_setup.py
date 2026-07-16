@@ -4,7 +4,6 @@ import numpy as np
 import matplotlib.pyplot as plt 
 import seaborn as sns    
 import plotly.express as px
-#import plotly.graph_objects as go
 import mysql.connector
 import time
 from datetime import datetime
@@ -12,7 +11,6 @@ import sys
 import os
 import warnings
 warnings.filterwarnings('ignore')
-# get_mysql_connection()
 def get_mysql_connection():
     try:
         connection = mysql.connector.connect(
