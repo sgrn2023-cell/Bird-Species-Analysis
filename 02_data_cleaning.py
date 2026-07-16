@@ -11,7 +11,6 @@ import os
 import warnings
 warnings.filterwarnings('ignore')
 
-# data_cleaning
 def load_csv_files():    
     try:
         # Load CSV files
